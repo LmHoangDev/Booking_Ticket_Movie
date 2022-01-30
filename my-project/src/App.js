@@ -1,4 +1,5 @@
 import "./App.css";
+import CustomCssConponent from "./components/TailwindComponents/CustomCssConponent";
 import DemoGrid from "./components/TailwindComponents/DemoGrid";
 import FlexDemo from "./components/TailwindComponents/FlexDemo";
 import PaddingMarginDemo from "./components/TailwindComponents/PaddingMarginDemo";
@@ -21,6 +22,7 @@ function App() {
           Hello
         </button>
       </div>
+      <CustomCssConponent />
     </div>
   );
 }
