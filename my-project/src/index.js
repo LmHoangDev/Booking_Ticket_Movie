@@ -3,12 +3,18 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-<link rel="stylesheet" href="https://rsms.me/inter/inter.css"></link>;
-<link href="../dist/index.css" rel="stylesheet"></link>;
+
+import { Provider } from "react-redux";
+import { store } from "./redux/configStore";
+import "antd/dist/antd.css";
+{
+  /* <link rel="stylesheet" href="https://rsms.me/inter/inter.css"></link>;
+<link href="../dist/index.css" rel="stylesheet"></link>; */
+}
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById("root")
 );
 
