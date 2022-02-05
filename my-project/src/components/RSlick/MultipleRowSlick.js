@@ -69,7 +69,7 @@ const MultipleRowSlick = (props) => {
   return (
     <div>
       <button
-        className={`${styleSlick[activeClassDC]} px-8 py-3 font-semibold rounded bg-gray-800 text-white mr-2`}
+        className={`${styleSlick[activeClassDC]} px-8 py-3 font-semibold rounded bg-gray-800 text-white mr-2 border-gray-800 border`}
         onClick={() => {
           const action = { type: SET_FILM_DANG_CHIEU };
           dispatch(action);

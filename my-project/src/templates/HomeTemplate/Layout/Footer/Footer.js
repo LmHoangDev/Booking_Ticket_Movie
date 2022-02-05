@@ -1,6 +1,12 @@
+import _ from "lodash";
 import React from "react";
+import { useSelector } from "react-redux";
 
 export default function Footer(props) {
+  const { heThongRapChieu } = useSelector((state) => state.QuanLyRapReducer);
+  const arrHeThongRap = _.map(heThongRapChieu, (heThongRap) =>
+    _.pick(heThongRap, ["maHeThongRap", "tenHeThongRap", "logo"])
+  );
   return (
     <footer className="py-6 bg-coolGray-100 text-coolGray-900 bg-gray-100 mt-3">
       <div className="container px-6 mx-auto space-y-6 divide-y divide-gray-400 md:space-y-12 divide-opacity-50">
@@ -26,35 +32,16 @@ export default function Footer(props) {
             </a>
           </div>
           <div className="col-span-6 text-center md:text-left md:col-span-3">
-            <p className="pb-1 text-lg font-medium">Category</p>
-            <ul style={{ color: "#fff" }}>
-              <li>
-                <a href="#" className="hover:text-violet-600 ">
-                  Link
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-violet-600">
-                  Link
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-violet-600">
-                  Link
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-violet-600">
-                  Link
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-violet-600">
-                  Link
-                </a>
-              </li>
-              {/**/}
-            </ul>
+            <p className="pb-1 text-lg font-medium">PARTNER</p>
+            <div className="grid grid-cols-3 gap-y-2" style={{ color: "#fff" }}>
+              {arrHeThongRap.map((htr, index) => {
+                return (
+                  <div key={index} className="cursor-pointer">
+                    <img src={htr.logo} style={{ width: 50 }} />
+                  </div>
+                );
+              })}
+            </div>
           </div>
           <div className="col-span-6 text-center md:text-left md:col-span-3">
             <p className="pb-1 text-lg font-medium">Category</p>
