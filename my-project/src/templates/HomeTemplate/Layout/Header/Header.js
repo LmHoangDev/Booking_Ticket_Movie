@@ -1,12 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
+import { history } from "../../../../App";
 export default function Header() {
   return (
     <header className="p-4 bg-coolGray-100 text-coolGray-800 bg-opacity-40 bg-black text-white fixed w-full z-10">
       <div className="container flex justify-between h-16 mx-auto">
-        <a
-          href="#"
+        <NavLink
+          to="/"
           aria-label="Back to homepage"
           className="flex items-center p-2"
         >
@@ -14,7 +14,7 @@ export default function Header() {
             src="https://cyberlearn.vn/wp-content/uploads/2020/03/cyberlearn-min-new-opt2.png"
             alt="cyberlearn.vn"
           />
-        </a>
+        </NavLink>
         <ul className="items-stretch hidden space-x-3 lg:flex">
           <li className="flex">
             <NavLink
@@ -45,7 +45,14 @@ export default function Header() {
           </li>
         </ul>
         <div className="items-center flex-shrink-0 hidden lg:flex">
-          <button className="self-center px-8 py-3 rounded">Sign in</button>
+          <button
+            onClick={() => {
+              history.push("/login");
+            }}
+            className="self-center px-8 py-3 rounded"
+          >
+            Sign in
+          </button>
           <button className="self-center px-8 py-3 font-semibold rounded bg-violet-600 text-coolGray-50">
             Sign up
           </button>
