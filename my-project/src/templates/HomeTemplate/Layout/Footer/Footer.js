@@ -34,7 +34,7 @@ export default function Footer(props) {
           <div className="col-span-6 text-center md:text-left md:col-span-3">
             <p className="pb-1 text-lg font-medium">PARTNER</p>
             <div className="grid grid-cols-3 gap-y-2" style={{ color: "#fff" }}>
-              {arrHeThongRap.map((htr, index) => {
+              {arrHeThongRap?.map((htr, index) => {
                 return (
                   <div key={index} className="cursor-pointer">
                     <img src={htr.logo} style={{ width: 50 }} />

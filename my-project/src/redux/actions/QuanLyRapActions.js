@@ -1,6 +1,6 @@
 import { quanLyRapService } from "../../services/QuanLyRapService";
 import { SET_HE_THONG_RAP_CHIEU } from "./types/QuanLyRapType";
-
+import { SET_CHI_TIET_PHIM } from "./types/QuanLyRapType";
 export const layDanhSachHeThongRapAction = () => {
   console.log("abc");
   return async (dispatch) => {
@@ -14,6 +14,23 @@ export const layDanhSachHeThongRapAction = () => {
           heThongRapChieu: result.data.content,
         });
       }
+    } catch (errors) {
+      console.log("errors", errors.response?.data);
+    }
+  };
+};
+export const layThongTinChiTietPhim = (id) => {
+  return async (dispatch) => {
+    try {
+      const result = await quanLyRapService.layThongTinLichChieuPhim(id);
+
+      console.log("result", result);
+      //Lấy được dữ liệu từ api về  => reducer
+
+      dispatch({
+        type: SET_CHI_TIET_PHIM,
+        filmDetail: result.data.content,
+      });
     } catch (errors) {
       console.log("errors", errors.response?.data);
     }
