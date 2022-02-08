@@ -13,6 +13,12 @@ import Detail from "./pages/Detail/Detail";
 import Checkout from "./pages/Checkout/Checkout";
 import { UserTemplate } from "./templates/UserTemplate/UserTemplate";
 import Loading from "./components/Loading/Loading";
+import Profile from "./pages/Profile/Profile";
+import AdminTemplate from "./templates/AdminTemplate/AdminTemplate";
+import Dashboard from "./pages/Admin/Dashboard/Dashboard";
+import Films from "./pages/Admin/Films/Films";
+import AddNew from "./pages/Admin/Films/AddNew/AddNew";
+import ShowTime from "./pages/Admin/ShowTime/ShowTime";
 export const history = createBrowserHistory();
 function App() {
   return (
@@ -20,14 +26,21 @@ function App() {
       <Loading />
       <Switch>
         <HomeTemplate path="/home" exact Component={Home} />
+        <HomeTemplate path="/" exact Component={Home} />
         <HomeTemplate path="/contact" exact Component={Contact} />
         <HomeTemplate path="/news" exact Component={News} />
         <HomeTemplate path="/detail/:id" exact Component={Detail} />
-
         <Route path="/register" exact component={Register} />
+        <Route path="/profile" exact component={Profile} />
         <HomeTemplate path="/" exact Component={Home} />
         <CheckoutTemplate path="/checkout/:id" exact Component={Checkout} />
         <UserTemplate path="/login" exact Component={Login} />
+        {/* admin */}
+        <AdminTemplate path="/admin" exact Component={Dashboard} />
+        <AdminTemplate path="/admin/films" exact Component={Films} />
+        <AdminTemplate path="/admin/films/addnew" exact Component={AddNew} />
+        <AdminTemplate path="/admin/users" exact Component={Dashboard} />
+        <AdminTemplate path="/admin/showtimes" exact Component={ShowTime} />
       </Switch>
     </Router>
   );

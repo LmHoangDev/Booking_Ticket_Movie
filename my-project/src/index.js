@@ -12,10 +12,8 @@ import "antd/dist/antd.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { DOMAIN } from "./util/settings/config";
-{
-  /* <link rel="stylesheet" href="https://rsms.me/inter/inter.css"></link>;
-<link href="../dist/index.css" rel="stylesheet"></link>; */
-}
+import "./i18n";
+
 //Đoạn code để kết nối đến server lắng nghe sự kiện từ server
 export const connection = new signalR.HubConnectionBuilder()
   .withUrl(`${DOMAIN}/DatVeHub`)

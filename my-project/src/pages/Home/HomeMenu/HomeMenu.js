@@ -73,7 +73,7 @@ export default class Demo extends React.PureComponent {
                                     return (
                                       <NavLink
                                         className="text-green-400"
-                                        to="/"
+                                        to={`/checkout/${lichChieu.maLichChieu}`}
                                         key={index}
                                       >
                                         {moment(

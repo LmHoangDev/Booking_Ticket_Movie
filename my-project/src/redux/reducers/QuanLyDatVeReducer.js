@@ -48,6 +48,10 @@ export default (state = initialState, action) => {
       state.tabActive = action.number;
       return { ...state };
     }
+    case "DAT_GHE": {
+      state.danhSachGheKhachDat = action.arrGheKhachDat;
+      return { ...state };
+    }
     default:
       return state;
   }

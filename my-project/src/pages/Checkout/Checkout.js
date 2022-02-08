@@ -4,12 +4,13 @@ import {
   datVeAction,
   layChiTietPhongVeAction,
 } from "../../redux/actions/QuanLyDatVeActions";
-import { DAT_VE } from "../../redux/actions/types/QuanLyDatVeType";
+
 import {
   UserOutlined,
   CloseOutlined,
   CheckOutlined,
   SmileOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 import _ from "lodash";
 import "./Checkout.css";
@@ -18,6 +19,11 @@ import { ThongTinDatVe } from "../../_core/models/ThongTinDatVe";
 import { Tabs } from "antd";
 import moment from "moment";
 import { layThongTinNguoiDungAction } from "../../redux/actions/QuanLyNguoiDungActions";
+import { connection } from "../..";
+import { datGheAction } from "../../redux/actions/QuanLyDatVeActions";
+import { NavLink } from "react-router-dom";
+import { history } from "../../App";
+import { TOKEN, USER_LOGIN } from "../../util/settings/config";
 function Checkout(props) {
   const { userLogin } = useSelector((state) => state.QuanLyNguoiDungReducer);
   const { chiTietPhongVe, danhSachGheDangDat, danhSachGheKhachDat } =
@@ -29,8 +35,50 @@ function Checkout(props) {
     const action = layChiTietPhongVeAction(props.match.params.id);
     //Dispatch function này đi
     dispatch(action);
-  }, []);
+    //Có 1 client nào thực hiện việc đặt vé thành công mình sẽ load lại danh sách phòng vé của lịch chiếu đó
+    connection.on("datVeThanhCong", () => {
+      dispatch(action);
+    });
 
+    //Vừa vào trang load tất cả ghế của các người khác đang đặt
+    connection.invoke("loadDanhSachGhe", props.match.params.id);
+
+    //Load danh sách ghế đang đặt từ server về (lắng nghe tín hiệu từ server trả về)
+    connection.on("loadDanhSachGheDaDat", (dsGheKhachDat) => {
+      console.log("danhSachGheKhachDat", dsGheKhachDat);
+
+      //Bước 1: Loại mình ra khỏi danh sách
+      dsGheKhachDat = dsGheKhachDat.filter(
+        (item) => item.taiKhoan !== userLogin.taiKhoan
+      );
+      //Bước 2 gộp danh sách ghế khách đặt ở tất cả user thành 1 mảng chung
+
+      let arrGheKhachDat = dsGheKhachDat.reduce((result, item, index) => {
+        let arrGhe = JSON.parse(item.danhSachGhe);
+
+        return [...result, ...arrGhe];
+      }, []);
+
+      //Đưa dữ liệu ghế khách đặt cập nhật redux
+      arrGheKhachDat = _.uniqBy(arrGheKhachDat, "maGhe");
+
+      //Đưa dữ liệu ghế khách đặt về redux
+      dispatch({
+        type: "DAT_GHE",
+        arrGheKhachDat,
+      });
+    });
+    //Cài đặt sự kiện khi reload trang
+    window.addEventListener("beforeunload", clearGhe);
+
+    return () => {
+      clearGhe();
+      window.removeEventListener("beforeunload", clearGhe);
+    };
+  }, []);
+  const clearGhe = (e) => {
+    connection.invoke("huyDat", userLogin.taiKhoan, props.match.params.id);
+  };
   console.log({ chiTietPhongVe });
   const { thongTinPhim, danhSachGhe } = chiTietPhongVe;
 
@@ -66,10 +114,8 @@ function Checkout(props) {
         <Fragment key={index}>
           <button
             onClick={() => {
-              dispatch({
-                type: DAT_VE,
-                gheDuocChon: ghe,
-              });
+              const action = datGheAction(ghe, props.match.params.id);
+              dispatch(action);
             }}
             disabled={ghe.daDat || classGheKhachDat !== ""}
             className={`ghe ${classGheVip} ${classGheDaDat} ${classGheDangDat} ${classGheDaDuocDat} ${classGheKhachDat} text-center`}
@@ -320,7 +366,7 @@ function KetQuaDatVe(props) {
   return (
     <div className="p-5">
       <section className="text-gray-600 body-font">
-        <div className="container px-5 py-16 mx-auto">
+        <div className="container px-5 py-5 mx-auto">
           <div className="flex flex-col text-center w-full mb-14">
             <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4  text-purple-600 ">
               Lịch sử đặt vé khách hàng
@@ -338,18 +384,68 @@ function KetQuaDatVe(props) {
 }
 const { TabPane } = Tabs;
 
-function callback(key) {
-  console.log(key);
-}
+// function callback(key) {
+//   console.log(key);
+// }
 export default function (props) {
   const { tabActive } = useSelector((state) => state.QuanLyDatVeReducer);
   const dispatch = useDispatch();
+  const { userLogin } = useSelector((state) => state.QuanLyNguoiDungReducer);
   console.log("tabActive", tabActive);
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "CHANGE_TAB_ACTIVE",
+        number: "1",
+      });
+    };
+  }, []);
+  const operations = (
+    <Fragment>
+      {!_.isEmpty(userLogin) ? (
+        <Fragment>
+          <button
+            onClick={() => {
+              history.push("/profile");
+            }}
+          >
+            <div
+              style={{
+                width: 50,
+                height: 50,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              className="text-2xl ml-5 rounded-full bg-red-200"
+            >
+              <UserOutlined />
+            </div>
+          </button>
+          <button
+            onClick={() => {
+              localStorage.removeItem(USER_LOGIN);
+              localStorage.removeItem(TOKEN);
+              history.push("/home");
+              window.location.reload();
+            }}
+            className="self-center px-3 ml-2 py-1 font-semibold rounded bg-red-600 text-white"
+          >
+            Log out
+          </button>
+        </Fragment>
+      ) : (
+        ""
+      )}
+    </Fragment>
+  );
+
   return (
     <div className="p-5">
       <Tabs
         defaultActiveKey="1"
         activeKey={tabActive}
+        tabBarExtraContent={operations}
         onChange={(key) => {
           // console.log('key',  key)
           dispatch({
@@ -364,6 +460,14 @@ export default function (props) {
         <TabPane tab="02 KẾT QUẢ ĐẶT VÉ" key="2">
           <KetQuaDatVe {...props} />
         </TabPane>
+        <TabPane
+          tab={
+            <NavLink to="/home" className="text-1xl">
+              <HomeOutlined />
+            </NavLink>
+          }
+          key="3"
+        ></TabPane>
       </Tabs>
     </div>
   );

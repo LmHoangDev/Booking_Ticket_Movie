@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { Button, CustomCard } from "@tsamantanis/react-glassmorphism";
+import { CustomCard } from "@tsamantanis/react-glassmorphism";
 import "@tsamantanis/react-glassmorphism/dist/index.css";
-import { useDispatch, useSelector } from "react-redux";
-import { layThongTinChiTietPhim } from "../../redux/actions/QuanLyRapActions";
 import { Rate, Tabs } from "antd";
 import moment from "moment";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import "../../assets/styles/circle.scss";
+import { layThongTinChiTietPhim } from "../../redux/actions/QuanLyRapActions";
 const { TabPane } = Tabs;
 export default function Detail(props) {
   const { filmDetail } = useSelector((state) => state.QuanLyPhimReducer);
