@@ -19,6 +19,7 @@ import Dashboard from "./pages/Admin/Dashboard/Dashboard";
 import Films from "./pages/Admin/Films/Films";
 import AddNew from "./pages/Admin/Films/AddNew/AddNew";
 import ShowTime from "./pages/Admin/ShowTime/ShowTime";
+import Edit from "./pages/Admin/Films/Edit/Edit";
 export const history = createBrowserHistory();
 function App() {
   return (
@@ -39,8 +40,13 @@ function App() {
         <AdminTemplate path="/admin" exact Component={Dashboard} />
         <AdminTemplate path="/admin/films" exact Component={Films} />
         <AdminTemplate path="/admin/films/addnew" exact Component={AddNew} />
+        <AdminTemplate path="/admin/films/edit/:id" exact Component={Edit} />
         <AdminTemplate path="/admin/users" exact Component={Dashboard} />
-        <AdminTemplate path="/admin/showtimes" exact Component={ShowTime} />
+        <AdminTemplate
+          path="/admin/films/showtime/:id/:tenphim"
+          exact
+          Component={ShowTime}
+        />
       </Switch>
     </Router>
   );

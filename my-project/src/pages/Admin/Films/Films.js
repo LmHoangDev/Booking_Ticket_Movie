@@ -7,9 +7,13 @@ import {
   EditOutlined,
   SearchOutlined,
   DeleteOutlined,
+  CalendarOutlined,
 } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { layDanhSachPhimAction } from "../../../redux/actions/QuanLyPhimActions";
+import {
+  layDanhSachPhimAction,
+  xoaPhimAction,
+} from "../../../redux/actions/QuanLyPhimActions";
 import { NavLink } from "react-router-dom";
 import { history } from "../../../App";
 const { Search } = Input;
@@ -100,11 +104,36 @@ export default function Films() {
       render: (text, film) => {
         return (
           <Fragment>
-            <NavLink className=" mr-2  text-2xl" to="/">
+            <NavLink
+              className=" mr-2  text-2xl"
+              key="1"
+              to={`/admin/films/edit/${film.maPhim}`}
+            >
               <EditOutlined style={{ color: "blue" }} />{" "}
             </NavLink>
-            <NavLink className="text-2xl" to="/">
+            <span
+              className="text-2xl"
+              onClick={() => {
+                if (
+                  window.confirm("Bạn có chắc muốn xoá phim " + film.tenPhim)
+                ) {
+                  //Gọi action
+                  dispatch(xoaPhimAction(film.maPhim));
+                }
+              }}
+              key="2"
+            >
               <DeleteOutlined style={{ color: "red" }} />{" "}
+            </span>
+            <NavLink
+              key={3}
+              className=" mr-2 text-2xl"
+              to={`/admin/films/showtime/${film.maPhim}/${film.tenPhim}`}
+              onClick={() => {
+                localStorage.setItem("filmParams", JSON.stringify(film));
+              }}
+            >
+              <CalendarOutlined style={{ color: "green" }} />
             </NavLink>
           </Fragment>
         );
@@ -115,7 +144,9 @@ export default function Films() {
   ];
   const data = arrFilmDefault;
 
-  const onSearch = (value) => console.log(value);
+  const onSearch = (value) => {
+    dispatch(layDanhSachPhimAction(value));
+  };
 
   function onChange(pagination, filters, sorter, extra) {
     console.log("params", pagination, filters, sorter, extra);
@@ -142,7 +173,12 @@ export default function Films() {
         onSearch={onSearch}
       />
 
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        onChange={onChange}
+        rowKey={"maPhim"}
+      />
     </div>
   );
 }

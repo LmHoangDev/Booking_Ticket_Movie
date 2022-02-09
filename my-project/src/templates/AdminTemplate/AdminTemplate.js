@@ -103,7 +103,7 @@ const AdminTemplate = (props) => {
                   <Menu.Item key="1" icon={<UserOutlined />}>
                     <NavLink to="/admin/users">Users</NavLink>
                   </Menu.Item>
-                  <SubMenu key="sub1" icon={<FileOutlined />} title="Films">
+                  <SubMenu key="sub1" icon={<DesktopOutlined />} title="Films">
                     <Menu.Item key="10" icon={<FileOutlined />}>
                       <NavLink to="/admin/films">Films</NavLink>
                     </Menu.Item>
@@ -111,9 +111,6 @@ const AdminTemplate = (props) => {
                       <NavLink to="/admin/films/addnew">Add new</NavLink>
                     </Menu.Item>
                   </SubMenu>
-                  <Menu.Item key="3" icon={<DesktopOutlined />}>
-                    <NavLink to="/admin/showtimes">Showtime</NavLink>
-                  </Menu.Item>
                 </Menu>
               </Sider>
               <Layout className="site-layout">
@@ -121,7 +118,7 @@ const AdminTemplate = (props) => {
                   className="site-layout-background"
                   style={{ padding: 0 }}
                 >
-                  <div className="text-right pr-10 pt-1">{operations}</div>
+                  <div className="text-right pr-5 pt-1">{operations}</div>
                 </Header>
                 <Content style={{ margin: "0 16px" }}>
                   <Breadcrumb style={{ margin: "16px 0" }}></Breadcrumb>
