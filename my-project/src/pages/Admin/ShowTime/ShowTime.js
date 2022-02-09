@@ -35,15 +35,19 @@ export default function ShowTime(props) {
     cumRapChieu: [],
   });
   console.log(state.heThongRapChieu);
-
-  useEffect(async () => {
-    try {
+  async function fetchData() {
+    try{
       let result = await quanLyRapService.layThongTinHeThongRap();
-      setState({
-        ...state,
-        heThongRapChieu: result.data.content,
-      });
-    } catch (error) {}
+        setState({
+            ...state,
+            heThongRapChieu: result.data.content,
+          });
+      }catch(error){
+        console.log("error", error.response?.data);
+      } 
+    }
+  useEffect( () => {
+   fetchData();
   }, []);
 
   const handleChangeHeThongRap = async (value) => {

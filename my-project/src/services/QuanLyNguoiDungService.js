@@ -13,6 +13,18 @@ export class QuanLyNguoiDungService extends baseService {
   layThongTinNguoiDung = () => {
     return this.post("/api/QuanLyNguoiDung/ThongTinTaiKhoan");
   };
+  layDanhSachLoaiNguoiDung = () => {
+    return this.get("/api/QuanLyNguoiDung/LayDanhSachLoaiNguoiDung");
+  };
+  themNguoiDung = (thongTinNguoiDung) => {
+    return this.post("/api/QuanLyNguoiDung/ThemNguoiDung", thongTinNguoiDung);
+  };
+  capNhatNguoiDung = (thongTinNguoiDung) => {
+    return this.post(
+      "/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
+      thongTinNguoiDung
+    );
+  };
 }
 
 export const quanLyNguoiDungService = new QuanLyNguoiDungService();

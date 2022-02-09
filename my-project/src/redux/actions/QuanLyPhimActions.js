@@ -1,19 +1,28 @@
 import { history } from "../../App";
 import { quanLyPhimService } from "../../services/QuanLyPhimService";
+import { DISPLAY_LOADING, HIDE_LOADING } from "./types/LoadingType";
 import { SET_DANH_SACH_PHIM, SET_THONG_TIN_PHIM } from "./types/QuanLyPhimType";
 
 export const layDanhSachPhimAction = (tenPhim = "") => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: DISPLAY_LOADING,
+      });
       //Sử dụng tham số thamSo
       const result = await quanLyPhimService.layDanhSachPhim(tenPhim);
-
+      dispatch({
+        type: HIDE_LOADING,
+      });
       //Sau khi lấy dữ liệu từ api về => redux (reducer)
       dispatch({
         type: SET_DANH_SACH_PHIM,
         arrFilm: result.data.content,
       });
     } catch (errors) {
+      dispatch({
+        type: HIDE_LOADING,
+      });
       console.log("errors", errors);
     }
   };

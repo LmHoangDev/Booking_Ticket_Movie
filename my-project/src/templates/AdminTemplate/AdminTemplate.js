@@ -100,9 +100,15 @@ const AdminTemplate = (props) => {
                   />
                 </div>
                 <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-                  <Menu.Item key="1" icon={<UserOutlined />}>
-                    <NavLink to="/admin/users">Users</NavLink>
-                  </Menu.Item>
+                  <SubMenu key="sub2" icon={<UserOutlined />} title="Users">
+                    <Menu.Item key="8" icon={<FileOutlined />}>
+                      <NavLink to="/admin/users">Users</NavLink>
+                    </Menu.Item>
+                    <Menu.Item key="9" icon={<UserOutlined />}>
+                      <NavLink to="/admin/users/addnew">Add new</NavLink>
+                    </Menu.Item>
+                  </SubMenu>
+
                   <SubMenu key="sub1" icon={<DesktopOutlined />} title="Films">
                     <Menu.Item key="10" icon={<FileOutlined />}>
                       <NavLink to="/admin/films">Films</NavLink>
@@ -130,7 +136,7 @@ const AdminTemplate = (props) => {
                   </div>
                 </Content>
                 <Footer style={{ textAlign: "center" }}>
-                  Ant Design ©2022 Created by LmDev
+                  Created by LmDev ©2022
                 </Footer>
               </Layout>
             </Layout>
