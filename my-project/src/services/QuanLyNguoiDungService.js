@@ -9,10 +9,14 @@ export class QuanLyNguoiDungService extends baseService {
     // {taiKhoan:'',matKhau:''}
     return this.post(`/api/QuanLyNguoiDung/DangNhap`, thongTinDangNhap);
   };
-  //lich su dat ve
+  dangKy = (thongTinDangKy) => {
+    return this.post(`/api/QuanLyNguoiDung/DangKy`, thongTinDangKy);
+  };
+  //lich su dat ve || show profile
   layThongTinNguoiDung = () => {
     return this.post("/api/QuanLyNguoiDung/ThongTinTaiKhoan");
   };
+
   layDanhSachLoaiNguoiDung = () => {
     return this.get("/api/QuanLyNguoiDung/LayDanhSachLoaiNguoiDung");
   };

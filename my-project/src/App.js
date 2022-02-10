@@ -34,11 +34,12 @@ function App() {
         <HomeTemplate path="/contact" exact Component={Contact} />
         <HomeTemplate path="/news" exact Component={News} />
         <HomeTemplate path="/detail/:id" exact Component={Detail} />
-        <Route path="/register" exact component={Register} />
-        <Route path="/profile" exact component={Profile} />
+
+        <CheckoutTemplate path="/profile" exact Component={Profile} />
         <HomeTemplate path="/" exact Component={Home} />
         <CheckoutTemplate path="/checkout/:id" exact Component={Checkout} />
         <UserTemplate path="/login" exact Component={Login} />
+        <UserTemplate path="/register" exact Component={Register} />
         {/* admin */}
         <AdminTemplate path="/admin" exact Component={Dashboard} />
         <AdminTemplate path="/admin/films" exact Component={Films} />

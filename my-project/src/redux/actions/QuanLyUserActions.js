@@ -3,6 +3,9 @@ import { quanLyNguoiDungService } from "../../services/QuanLyNguoiDungService";
 import { GET_DANH_SACH_NGUOI_DUNG } from "../actions/types/QuanLyUserType";
 import { DISPLAY_LOADING, HIDE_LOADING } from "./types/LoadingType";
 import { history } from "../../App";
+import { layThongTinNguoiDungAction } from "./QuanLyNguoiDungActions";
+import { USER_LOGIN } from "../../util/settings/config";
+import { dangNhapAction } from "./QuanLyNguoiDungActions";
 export const LayDanhSachNguoiDungAction = (tuKhoa = "") => {
   console.log("abc");
   return async (dispatch) => {
@@ -72,6 +75,31 @@ export const capNhatNguoiDungAction = (thongTinNguoiDung) => {
       }
     } catch (errors) {
       console.log("errors", errors.response?.data);
+    }
+  };
+};
+export const capNhatTaiKhoanAction = (thongTinNguoiDung) => {
+  return async (dispatch) => {
+    try {
+      let result = await quanLyNguoiDungService.capNhatNguoiDung(
+        thongTinNguoiDung
+      );
+      if (result.status === 200) {
+        alert("Cập nhật tài khoản thành công");
+
+        dispatch(LayDanhSachNguoiDungAction());
+        dispatch(layThongTinNguoiDungAction());
+        window.location.reload();
+        dispatch(
+          dangNhapAction({
+            taiKhoan: thongTinNguoiDung.taiKhoan,
+            matKhau: thongTinNguoiDung.matKhau,
+          })
+        );
+      }
+    } catch (errors) {
+      console.log("errors", errors.response?.data);
+      alert(errors.response?.data.content);
     }
   };
 };
